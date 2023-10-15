@@ -48,8 +48,8 @@ jobs:
         with:
           name: java-app
 
-      - name: Rename to ROOT
-        run: mv *.jar ROOT.jar
+#      - name: Rename to ROOT
+#        run: mv *.jar ROOT.jar
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
