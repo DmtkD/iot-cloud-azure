@@ -4,7 +4,7 @@
 name: Build and deploy WAR app to Azure Web App - test-app-pavlo
 
 env:
-  AZURE_WEBAPP_NAME: "pavlo-turchynyak-app"    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_NAME: pavlo-turchynyak-app    # set this to the name of your Azure Web App
   JAVA_VERSION: '17'                  # set this to the Java version to use
 
 on:
