@@ -1,20 +1,12 @@
 package ua.lviv.iot.lab5.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "establishment", schema = "dbo")
 public class Establishment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

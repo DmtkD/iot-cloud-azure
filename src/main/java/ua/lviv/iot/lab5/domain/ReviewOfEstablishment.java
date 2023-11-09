@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "review_of_establishment")
+@Table(name = "review_of_establishment", schema = "dbo")
 public class ReviewOfEstablishment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_account")
+@Table(name = "user_account", schema = "dbo")
 public class UserAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

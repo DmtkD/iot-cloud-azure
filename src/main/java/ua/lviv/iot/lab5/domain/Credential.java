@@ -1,17 +1,12 @@
 package ua.lviv.iot.lab5.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "credential", schema = "dbo")
 public class Credential {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

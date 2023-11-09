@@ -1,11 +1,9 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy WAR app to Azure Web App - test-app-pavlo
+name: Build and deploy WAR app to Virtual Machine
 
 env:
-  AZURE_WEBAPP_NAME: pavlo-turchynyak-app    # set this to the name of your Azure Web App
-  JAVA_VERSION: '17'                  # set this to the Java version to use
+  JAVA_VERSION: '17'
+  SQL_CONSTR: ${{ secrets.SQLAZURECONNSTR_WEB_APP_DB }}
+  JAVA_APP: "Lab1.war"
 
 on:
   push:
@@ -38,23 +36,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Development'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
+          path: workdir
 
-#      - name: Rename to ROOT
-#        run: mv *.war ROOT.war
-
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+      - name: Deploy the package to the remote server
+        uses: garygrossgarten/github-action-scp@release
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: '*.war'
+          local: workdir/${{ env.JAVA_APP }}
+          remote: action/java-app.war
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+
+      - name: Run a script on remote server (start the application)
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd action/
+            set SQLAZURECONNSTR_WEB_APP_DB=${{ env.SQL_CONSTR }}
+            java -jar java-app.war &
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.SSH_USER }}
+          pass: ${{ secrets.SSH_PASSWORD }}
+          args: "-tt"
