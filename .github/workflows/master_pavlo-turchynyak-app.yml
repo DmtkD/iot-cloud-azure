@@ -4,7 +4,6 @@ env:
   JAVA_VERSION: '17'
   SQL_CONSTR: ${{ secrets.SQLAZURECONNSTR_WEB_APP_DB }}
   JAVA_APP: "Lab1.war"
-  TEST_VARIABLE: "TEST_VALUE"
 
 on:
   push:
@@ -60,7 +59,6 @@ jobs:
           command: |
             cd action/
             set SQLAZURECONNSTR_WEB_APP_DB=${{ env.SQL_CONSTR }}
-            set TEST=${{ env.TEST_VARIABLE }}
             java -jar java-app.war &
           host: ${{ secrets.HOST }}
           user: ${{ secrets.SSH_USER }}
