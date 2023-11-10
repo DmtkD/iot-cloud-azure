@@ -6,9 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
-import ua.lviv.iot.lab5.domain.InformationAboutOwner;
-import ua.lviv.iot.lab5.domain.Street;
-import ua.lviv.iot.lab5.domain.TypeOfEstablishment;
 
 @Getter
 @Builder

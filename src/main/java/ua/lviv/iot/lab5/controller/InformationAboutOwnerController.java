@@ -65,7 +65,7 @@ public class InformationAboutOwnerController {
     }
 
     @PostMapping(value = "/procedure")
-    public ResponseEntity<InformationAboutOwnerDto> inputDataAboutOwner (@RequestBody InformationAboutOwner informationAboutOwner) {
+    public ResponseEntity<InformationAboutOwnerDto> inputDataAboutOwner(@RequestBody InformationAboutOwner informationAboutOwner) {
         String name = informationAboutOwner.getName();
         String surname = informationAboutOwner.getSurname();
         Integer age = informationAboutOwner.getAge();
