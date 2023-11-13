@@ -1,0 +1,62 @@
+name: Build and deploy Docker Container to ACA (Azure Container Apps)
+
+env:
+  JAVA_VERSION: '17'
+  SQL_CONSTR: ${{ secrets.SQLAZURECONNSTR_WEB_APP_DB }}
+  JAVA_APP: "Lab1.war"
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java version ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'zulu'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/*.war'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: java-app
+          path: target/
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.IOTCLOUDCOURSELAB2_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: target/
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
+          containerAppName: iot-cloud-course-lab2
+          resourceGroup: iot-cloud-course
+          imageToBuild: dmtkd/iot-cloud-course-lab2:${{ github.sha }}
+          dockerfilePath: ${{ github.workspace }}
+          targetPort: 8080
+          environmentVariables: ["SQLAZURECONNSTR_WEB_APP_DB = ${{ env.SQL_CONSTR }}"]
