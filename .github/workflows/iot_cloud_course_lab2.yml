@@ -59,4 +59,4 @@ jobs:
           imageToBuild: dmtkd/iot-cloud-course-lab2:${{ github.sha }}
           dockerfilePath: ${{ github.workspace }}
           targetPort: 8080
-          environmentVariables: ["SQLAZURECONNSTR_WEB_APP_DB = ${{ env.SQL_CONSTR }}"]
+          environmentVariables: 'SQLAZURECONNSTR_WEB_APP_DB = ${{ env.SQL_CONSTR }}'
