@@ -40,7 +40,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-app
-          path: target
+#          path: target
 
       - name: Azure Login
         uses: azure/login@v1
@@ -50,13 +50,13 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: target
+          appSourcePath: '${{ github.workspace }}/target'
           registryUrl: docker.io
           registryUsername: ${{ secrets.REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
           containerAppName: iot-cloud-course-lab2
           resourceGroup: iot-cloud-course
           imageToBuild: dmtkd/iot-cloud-course-lab2:${{ github.sha }}
-          dockerfilePath: '${{ github.workspace }}.Dockerfile'
+#          dockerfilePath: '${{ github.workspace }}.Dockerfile'
           targetPort: 8080
           environmentVariables: 'SQLAZURECONNSTR_WEB_APP_DB = ${{ env.SQL_CONSTR }}'
