@@ -31,6 +31,12 @@ jobs:
           name: java-app
           path: '${{ github.workspace }}/target/*.war'
 
+      - name: Upload Dockerfile for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: Dockerfile
+          path: '${{ github.workspace }}/Dockerfile'
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -40,6 +46,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-app
+          path: ${{ github.workspace }}
+
+      - name: Download Dockerfile from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: Dockerfile
           path: ${{ github.workspace }}
 
       - name: Azure Login
