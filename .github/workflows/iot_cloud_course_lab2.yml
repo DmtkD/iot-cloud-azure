@@ -2,7 +2,7 @@ name: Build and deploy Docker Container to ACA (Azure Container Apps)
 
 env:
   JAVA_VERSION: '17'
-  SQL_CONSTR: ${{ secrets.SQLAZURECONNSTR_WEB_APP_DB }}
+  SQL_CONSTR: ${{ secrets.SQLAZURECONNSTR_ACA_DB }}
   JAVA_APP: "Lab1.war"
 
 on:
